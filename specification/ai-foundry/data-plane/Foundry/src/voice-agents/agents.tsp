@@ -383,12 +383,13 @@ union VoiceAgentPostCallIncludeOption {
 
   @doc("""
     An authorized URL reference to the call's merged recording, not inline or base64 audio. The URL carries no
-    credential; reading it requires a Microsoft Entra ID caller that either owns the conversation (the session's
-    original caller) or holds the `Microsoft.CognitiveServices/accounts/AIServices/agents/sessions/read` data
-    action; other callers receive `404`. A delivery consumer that is not the original caller therefore needs that
-    data action. Requesting audio
-    persists the session's conversation and audio even when store is false. Delivery distinguishes content not
-    requested from requested content that is unavailable.
+    credential. Reading it requires a Microsoft Entra ID caller with read access to the agent endpoint that is
+    also allowed to see the conversation: either the conversation's owner (the session's original caller, or the
+    same user isolation key on endpoints that use header isolation) or a caller authorized to read all of the
+    agent's sessions, for example through the Foundry User role. Other callers receive `404`, so a delivery
+    consumer that is not the original caller needs agent-wide session read access. Requesting audio persists the
+    session's conversation and audio even when store is false. Delivery distinguishes content not requested from
+    requested content that is unavailable.
     """)
   audio: "audio",
 }
