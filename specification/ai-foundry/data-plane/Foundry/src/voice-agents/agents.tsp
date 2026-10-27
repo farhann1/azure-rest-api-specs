@@ -383,7 +383,10 @@ union VoiceAgentPostCallIncludeOption {
 
   @doc("""
     An authorized URL reference to the call's merged recording, not inline or base64 audio. The URL carries no
-    credential; reading it requires Microsoft Entra ID and read access to the agent endpoint. Requesting audio
+    credential; reading it requires a Microsoft Entra ID caller that either owns the conversation (the session's
+    original caller) or holds the `Microsoft.CognitiveServices/accounts/AIServices/agents/sessions/read` data
+    action; other callers receive `404`. A delivery consumer that is not the original caller therefore needs that
+    data action. Requesting audio
     persists the session's conversation and audio even when store is false. Delivery distinguishes content not
     requested from requested content that is unavailable.
     """)
